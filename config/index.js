@@ -3,6 +3,7 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+const hostIp = require('ip').address();
 
 module.exports = {
   dev: {
@@ -19,16 +20,21 @@ module.exports = {
         }
       }
     },
+    baseUrl: {
+      dev: '/api',
+      pro: 'http://d.apicloud.com/mcm/'
+    },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    // host: '127.0.0.1', // can be overwritten by process.env.HOST
+    host: hostIp, // 设置本机ip访问
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
      * Source Maps
      */

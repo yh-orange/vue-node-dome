@@ -1,0 +1,58 @@
+@charset "utf-8";
+@import "./base-import.less";
+
+@font-family: Verdana, SimHei, Arial, Helvetica, sans-serif;
+
+body {
+    font-size: @normal-font-size;
+    font-family: @font-family;
+    line-height: 150%;
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+    outline: none;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    padding: 5px 0;
+}
+
+u {
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+    outline: none;
+    cursor: pointer;
+    &:hover {
+        text-decoration: none;
+    }
+    &:focus {
+        outline: none;
+    }
+}
+
+input[type='text'], input[type='password'], input[type='button'], button, textarea, select {
+    font-family: @font-family;
+}
+
+textarea {
+    resize: none;
+    //white-space: pre-line;
+    word-break: break-all;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form {
+    margin: 0;
+}
+
+@import "./base/style-class.less";
+@import (less) "./base/style-animate.css";
