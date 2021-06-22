@@ -10,13 +10,7 @@ module.exports = {
   loaders: utils.cssLoaders({
     sourceMap: sourceMapEnabled,
     extract: isProduction,
-    plugins: [
-      // postcS5-pXtorem: px车专rem
-      require('postcss-pxtorem')({
-        'rootValue': 14, // body下的默认字体大小
-        propList: ['*'], //属性的选择器
-        mediaQuery: true //允许在媒体查询中转换px。
-      })]
+    plugins: [],
   }),
   cssSourceMap: sourceMapEnabled,
   cacheBusting: config.dev.cacheBusting,
