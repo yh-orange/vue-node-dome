@@ -2,7 +2,6 @@
     <div id="app">
         <img src="@/asset/logo.png">
         <router-view/>
-        2333333333
         <session-error-popup :content="content"
                              :is-need-logout="isNeedLogout"
                              :href-logout="hrefLogout"></session-error-popup>

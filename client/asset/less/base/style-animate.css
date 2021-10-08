@@ -121,7 +121,7 @@
 .rubberBand {
   animation-name: rubberBand;
 }
-
+/*左右晃动*/
 @keyframes shake {
   from, to {
     transform: translate3d(0, 0, 0);

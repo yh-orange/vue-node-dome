@@ -1,27 +1,28 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-console.log(Object);
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
+const hostIp = require('ip').address();
+
 Object.defineProperty(global, 'ctx_path', {
   value: '',
   configurable: true
 });
-// var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var allRouter =  require('./all-router');
+// let indexRouter = require('./routes/index');
+let usersRouter = require('./routes/users');
+let allRouter =  require('./all-router');
 
-var app = express();
+let app = express();
 //跨域问题解决方面
-const cors = require('cors');  
-app.use(cors({  
-    origin:['http://localhost:8080'],
+const cors = require('cors');
+app.use(cors({
+    origin:[hostIp, 'http://localhost:8080'],
     methods:['GET','POST'],
 }));
 //跨域问题解决方面
 app.all('*',function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
+  res.header('Access-Control-Allow-Origin', hostIp);
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
 　next();　
