@@ -1,0 +1,73 @@
+@charset "utf-8";
+
+.tip-error-wrap {
+    display: inline-block;
+    color: #E04A4A;
+    position: absolute;
+    bottom: 12px;
+    font-size: 14px;
+    height: 20px;
+}
+
+.error-top {
+    top: -24px;
+    left: 50px;
+}
+
+.page-top {
+    top: -29px;
+    left: 76px;
+}
+
+.edit-top{
+    top: -30px;
+    left: 200px;
+}
+
+.bottom {
+    bottom: -70px;
+}
+
+.left-bottom {
+    bottom: 12px;
+    left: 0;
+}
+
+.module-title-bottom{
+    bottom: -2px;
+    left: 16px;
+}
+
+.page-title-bottom{
+    bottom: -22px;
+    left: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+    animation-duration: .3s;
+    animation-fill-mode: both;
+    animation-play-state: paused
+}
+
+.fade-leave-active {
+    animation-name: moveUpOut;
+    animation-play-state: running
+}
+
+.fade-leave-active {
+    animation-timing-function: ease-in-out
+}
+
+@keyframes moveUpOut {
+    0% {
+        transform-origin: 0 0;
+        transform: translate(0, 0);
+        opacity: 1
+    }
+
+    to {
+        transform-origin: 0 0;
+        transform: translate(0, -10%);
+        opacity: 0
+    }
+}

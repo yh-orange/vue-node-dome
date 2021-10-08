@@ -1,0 +1,126 @@
+@import "../../../asset/less/base-style";
+
+@mini-height: 30/16rem;
+@small-height: 30/16rem;
+@middle-height: 30/16rem;
+@large-height: 30/16rem;
+
+.ef-input {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    border-collapse: separate;
+
+    .ef-input-inner {
+        background: @inputBackgroundColor;
+        border: 1/16rem solid @inputBorderColor;
+        color: @fontColor-2;
+        height: inherit;
+        line-height: 1;
+        outline: 1/16rem;
+        padding: 0 0 0 20/16rem;
+        transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+        width: 100%;
+        font-size: @normal-font-size;
+
+        &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+            color: @efInputPlaceholderFontColor;
+        }
+
+        &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            color: @efInputPlaceholderFontColor;
+        }
+
+        &::-moz-placeholder { /* Mozilla Firefox 19+ */
+            color: @efInputPlaceholderFontColor;
+        }
+
+        &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: @efInputPlaceholderFontColor;
+        }
+
+        &:focus {
+            border-color: @efInputFocusBorderColor !important;
+        }
+
+        &.hide-border {
+            border: none;
+        }
+
+        &.transparent {
+            background-color: transparent;
+        }
+    }
+
+    &.ef-input-mini {
+        height: @mini-height;
+    }
+
+    &.ef-input-small {
+        height: @small-height;
+    }
+
+    &.ef-input-medium {
+        height: @middle-height;
+    }
+
+    &.ef-input-large {
+        height: @large-height;
+    }
+
+    .ef-input-icon + .ef-input-inner {
+        padding-right: 20/16rem;
+    }
+
+    .ef-input-icon {
+        position: absolute;
+        width: 30/16rem;
+        height: 100%;
+        right: 0;
+        top: 0;
+        text-align: center;
+        color: @iconFontColor;
+        transition: transform .3s;
+        transform: translateY(0%) rotate(0);
+        cursor: pointer;
+        font-size: @normal-font-size;
+
+        &:hover {
+            color: @iconFontHoverColor;
+        }
+
+        &.is-reverse {
+            transform: translateY(0%) rotate(180deg);
+        }
+
+        &:after {
+            content: "";
+            height: 100%;
+            width: 0;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+
+    .ef-input-append {
+        background-color: @efInputAppendColor;
+        color: @inputAppendColor;
+        vertical-align: middle;
+        display: table-cell;
+        position: relative;
+        width: 30/16rem;
+        white-space: nowrap;
+
+        .ef-button {
+            border-color: transparent;
+            background-color: transparent;
+            color: inherit;
+            border-top: 0;
+            border-bottom: 0;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+    }
+
+}
+

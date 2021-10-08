@@ -1,0 +1,97 @@
+.ef-loading-panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: @primaryColor-6;
+  vertical-align: middle;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  z-index: inherit;
+  line-height: 1rem;
+  .ef-loading-tip {
+    font-size: .7rem;
+  }
+
+  .ef-loading-icon {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 1rem;
+    height: 1rem;
+    transform: rotate(45deg);
+    animation: efRotate 3.2s infinite linear;
+    .loader-circle, .loader-circle:after {
+      width: 100%;
+      height: 100%;
+    }
+
+    &.small {
+      width: .7rem;
+      height: .7rem;
+      i {
+        width: .3rem;
+        height: .3rem;
+      }
+    }
+
+    &.large {
+      width: 1.5rem;
+      height: 1.5rem;
+      i {
+        width: .6rem;
+        height: .6rem;
+      }
+    }
+
+    i {
+      width: .4rem;
+      height: .4rem;
+      border-radius: 50%;
+      background-color: @primaryColor-6;
+      transform: scale(0.6);
+      display: block;
+      position: absolute;
+      opacity: 0.3;
+      animation: efSpinMove .8s infinite linear alternate;
+      transform-origin: 0 0;
+
+      &:nth-child(1) {
+        left: 0;
+        top: 0;
+      }
+
+      &:nth-child(2) {
+        right: 0;
+        top: 0;
+        animation-delay: 0.4s;
+      }
+
+      &:nth-child(3) {
+        left: 0;
+        bottom: 0;
+        animation-delay: 0.8s;
+      }
+
+      &:nth-child(4) {
+        right: 0;
+        bottom: 0;
+        animation-delay: 1.2s;
+      }
+    }
+  }
+}
+
+@keyframes efSpinMove {
+  to {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes efRotate {
+  to {
+    -webkit-transform: rotate(405deg);
+    transform: rotate(405deg);
+  }
+}

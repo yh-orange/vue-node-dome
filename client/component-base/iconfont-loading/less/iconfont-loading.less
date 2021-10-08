@@ -1,0 +1,23 @@
+
+.iconfont-loading-container {
+  display: inline-block;
+  .ef-loading {
+    color: @iconFontColor;
+    cursor: pointer;
+    display: inline-block;
+    animation: rotateAnimation 1s infinite linear;
+  }
+}
+
+@keyframes rotateAnimation {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+    opacity: 0.2;
+  }
+}

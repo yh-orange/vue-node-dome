@@ -1,0 +1,61 @@
+@charset "utf-8";
+
+.ef-tip-rs {
+    position: absolute;
+    z-index: 999;
+    top: 70/16rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 1.2s;
+
+    .rs-message {
+        background-color: rgba(0, 0, 0, 0.8);
+        box-shadow: 5/16rem 5/16rem 5/16rem rgba(0, 0, 0, 0.2);
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 340/16rem;;
+        padding-left: 1rem;
+        padding-right: 1rem;
+
+        .jinggao {
+            float: left;
+            display: block;
+            width: 20/16rem;
+            height: 20/16rem;
+        }
+
+        .error-message {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 320/16rem;
+            padding-left: 32/16rem !important;
+            font-size: 14/16rem;
+            color: #fff;
+        }
+    }
+
+    .ef-tip-fabu {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 3/16rem;
+        width: 100%;
+        box-sizing: border-box;
+        padding-left: 20/16rem;
+        padding-right: 20/16rem;
+        overflow: hidden;
+
+        .jinggao {
+            float: left;
+            display: block;
+            width: 20/16rem;
+            height: 20/16rem;
+            margin-right: 10/16rem;
+        }
+
+        .error-message {
+            font-size: 14/16rem;
+            color: #fff;
+        }
+    }
+}

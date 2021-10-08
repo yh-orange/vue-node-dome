@@ -1,0 +1,117 @@
+@import "../../../asset/less/base/mixins-base.less";
+
+@scroller-color: #d6dae5;
+@scroller-background-color: #fff;
+@clear-btn-color: #5093e1;
+@length-tip-em-tip-color: #f65177;
+/*浏览器滚动条样式*/
+/*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+::-webkit-scrollbar {
+    width: 6/16rem;
+    height: 10/16rem;
+    background-color: transparent;
+}
+
+/*定义滚动条轨道 内阴影+圆角*/
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+/*定义滑块 内阴影+圆角*/
+::-webkit-scrollbar-thumb {
+    border-radius: 3/16rem;
+    background-color: @scroller-color;
+}
+
+.syntax-help-textarea {
+    position: relative;
+
+    .input-message-tip {
+        position: absolute;
+        left: 0;
+        color: #f2971d;
+        font-size: 12/16rem;
+        z-index: 1;
+
+        img {
+            width: 20/16rem;
+            height: 20/16rem;
+            margin-right: 8/16rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+
+    .edit-keywords-helper {
+        position: relative;
+        z-index: 3;
+        height: 20/16rem;
+        line-height: 20/16rem;
+        padding: 0 20/16rem;
+        background-color: #edeff5;
+
+        .help-tip-item {
+            cursor: pointer;
+            margin-right: 10/16rem;
+            font-size: 12/16rem;
+        }
+
+        .close-keyword-helper-btn {
+            float: right;
+            cursor: pointer;
+            font-size: 24/16rem;
+            width: 14/16rem;
+        }
+    }
+
+    .syntax-help-panel {
+        .help {
+            text-align: right;
+            height: 20/16rem;
+            line-height: 20/16rem;
+
+            .help-btn {
+                font-size: 12/16rem;
+                color: #bbbbbb;
+                margin-top: 5/16rem;
+
+                img {
+                    width: 12.5/16rem;
+                    height: 12/16rem;
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+
+    .length-tip {
+        position: absolute;
+        color: #828282;
+        top: -20px;
+        right: 0;
+        padding: 0 12px;
+        line-height: 12px;
+        height: 12px;
+        font-size: 12px;
+        z-index: 1;
+        text-align: right;
+
+        .length-tip-span-tip {
+            .length-tip-em-tip {
+                //color: @length-tip-em-tip-color;
+                font-style: normal;
+                font-weight: 700;
+            }
+        }
+
+        .clear-btn {
+            color: @clear-btn-color;
+            text-decoration: none;
+            background: transparent;
+            outline: none;
+            cursor: pointer;
+        }
+    }
+
+}

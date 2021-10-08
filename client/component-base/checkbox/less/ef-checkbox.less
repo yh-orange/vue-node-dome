@@ -1,0 +1,70 @@
+@import "../../../asset/less/base/mixins-base.less";
+
+.ef-checkbox {
+  line-height: 1;
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  white-space: nowrap;
+  outline: none;
+  &.is-checked {
+    .ef-checkbox-input {
+      .ef-checkbox-inner {
+        &:after {
+          transform: translate(-50%,-50%) scale(1);
+        }
+      }
+    }
+    .ef-checkbox-label {
+      color: @fontColor-2;
+    }
+  }
+  .ef-checkbox-label {
+    font-size: @fontSize-1;
+    color: @fontColor-5;
+    font-weight: normal;
+  }
+  .ef-checkbox-input {
+    white-space: nowrap;
+    cursor: pointer;
+    outline: none;
+    display: inline-block;
+    line-height: 1;
+    position: relative;
+    vertical-align: middle;
+    .ef-checkbox-inner {
+      border: 1px solid @primaryBorderColor;
+      width: .7em;
+      height: .7em;
+      background-color: @primaryColor-1;
+      position: relative;
+      cursor: pointer;
+      display: inline-block;
+      box-sizing: border-box;
+      &:after {
+        width: 70%;
+        height: 70%;
+        background-color: @confirmColor;
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%) scale(0);
+        transition: transform .15s cubic-bezier(.71,-.46,.88,.6);
+      }
+    }
+    .ef-checkbox-original {
+      opacity: 0;
+      outline: none;
+      position: absolute;
+      z-index: -1;
+      color: @confirmColor;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: 0;
+    }
+  }
+}
+

@@ -1,0 +1,42 @@
+@import "../../../asset/less/base/mixins-base.less";
+
+.form-line {
+  position: relative;
+  line-height: 2em;
+  color: @rangeFontColor;
+  height: 2em;
+  overflow: hidden;
+  clear: both;
+  &.is-show-more {
+    height: auto;
+  }
+  .form-line-label {
+    position: relative;
+    float: left;
+    min-width: 3.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+    color: @formLineLabelColor;
+    margin-right: .5em;
+    >span {
+      font-size: .8em;
+    }
+  }
+
+  .form-line-content {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .form-line-right {
+    font-size: .7em;
+    display: block;
+    float: right;
+    color: @formLineLabelColor;
+    .more-btn {
+      cursor: pointer;
+    }
+  }
+}
