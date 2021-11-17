@@ -1,6 +1,5 @@
 <template>
     <div id="app">
-        <img src="@/asset/logo.png">
         <router-view/>
         <session-error-popup :content="content"
                              :is-need-logout="isNeedLogout"
