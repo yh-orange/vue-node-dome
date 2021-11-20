@@ -4,6 +4,9 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 const hostIp = require('ip').address();
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const mysql = require('mysql');
 
 Object.defineProperty(global, 'ctx_path', {
   value: '',
@@ -14,6 +17,19 @@ let usersRouter = require('./routes/users');
 let allRouter =  require('./all-router');
 
 let app = express();
+app.use(express.static(path.resolve(__dirname, './www')));  // 默认首页为www下的index.html
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extend: true }));
+const sessionPool = {};
+
+const pool = mysql.createPool({
+  host: '120.77.15.134',
+  user: 'yh',
+  password: 'KBc7mSdYe6r7HxFN',
+  port: '3306',
+  database: 'yh',
+  multipleStatements: true
+});
 //跨域问题解决方面
 const cors = require('cors');
 app.use(cors({
@@ -25,7 +41,22 @@ app.all('*',function (req, res, next) {
   res.header('Access-Control-Allow-Origin', hostIp);
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-　next();　
+  let url = req.url;
+  if (url == '/login') {
+    next();
+  } else {
+    if (req.method == "GET") {
+      username = req.query.user;
+    } else if (req.method == "POST") {
+      username = req.body.user;
+    }
+    if (sessionPool[username] && getSid(res.req.headers.cookie) == sessionPool[username]) {
+      // 用户session存在
+      next();
+    } else {
+      res.json({ requestIntercept: '你还没登录哦' });  // 页面拿到这个值在做拦截处理即可
+    }
+  }
 });
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -44,6 +75,11 @@ app.use('/users', usersRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+// 请求错误
+app.get('/error', function (req, res) {
+
+  res.send(fs.readFileSync(path.resolve(__dirname, './www/error.html'), 'utf-8'))
+});
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -55,5 +91,64 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+// 登录接口
+app.post('/login', function (req, res) {
 
+  // 判断是否已在线
+  if (sessionPool[req.body.user]) {
+    // 在线
+    delete sessionPool[req.body.user];
+  }
+  // 使用数据库连接池
+  pool.getConnection(function (err, connection) {
+
+    // 多语句查询示例
+    connection.query("select * from userlist where username = '" + req.body.user + "' and password = '" + req.body.pwd + "' and delMark = '0'; select count(1) from userlist", function (err, rows) {
+
+      if (err) {
+        throw err;
+      } else {
+        if (rows[0].length > 0) {
+          // 设置cookie
+          let cookieSid = req.body.user + Date.parse(new Date());
+          res.setHeader("Set-Cookie", ["sid=" + cookieSid + ";path=/;expires=" + new Date("2030")]);
+          // 先存储session到sessionPool
+          sessionPool[req.body.user] = cookieSid;
+          // 返回登录成功的信息
+          res.json({ status: 1, dbData: rows[0], session: req.session });
+          res.end();
+        } else {
+          // 用户不存在
+          res.json({ status: 0 });
+          res.end();
+        }
+      }
+    });
+    // 释放本次连接
+    connection.release();
+  });
+})
+
+// 退出登录
+app.post('/logout', function (req, res) {
+
+  delete sessionPool[req.body.user];
+  res.json({ logout: 1 });
+  res.end();
+})
+/*
+* 公共方法
+*/
+
+// 解析cookie中的sid
+function getSid(cookieStr) {
+
+  let sid = '', cookieArr = cookieStr.split(';');
+  for (let i = 0; i < cookieArr.length; i++) {
+    if (cookieArr[i].trim().substring(0, 3) == 'sid') {
+      return sid = cookieArr[i].trim().substring(4, cookieArr[i].length);
+    }
+  }
+  return sid;
+}
 module.exports = app;
