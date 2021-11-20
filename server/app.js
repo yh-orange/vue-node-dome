@@ -22,13 +22,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extend: true }));
 const sessionPool = {};
 
-const pool = mysql.createPool({
+const pool = mysql.createConnection({
   host: '120.77.15.134',
   user: 'yh',
   password: 'KBc7mSdYe6r7HxFN',
   port: '3306',
   database: 'yh',
   multipleStatements: true
+});
+pool.connect(function(err){
+  console.log('connection success');
 });
 //跨域问题解决方面
 const cors = require('cors');
@@ -41,22 +44,22 @@ app.all('*',function (req, res, next) {
   res.header('Access-Control-Allow-Origin', hostIp);
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-  let url = req.url;
-  if (url == '/login') {
-    next();
-  } else {
-    if (req.method == "GET") {
-      username = req.query.user;
-    } else if (req.method == "POST") {
-      username = req.body.user;
-    }
-    if (sessionPool[username] && getSid(res.req.headers.cookie) == sessionPool[username]) {
-      // 用户session存在
-      next();
-    } else {
-      res.json({ requestIntercept: '你还没登录哦' });  // 页面拿到这个值在做拦截处理即可
-    }
-  }
+  // let url = req.url;
+  // if (url == '/login') {
+  //   next();
+  // } else {
+  //   if (req.method == "GET") {
+  //     username = req.query.user;
+  //   } else if (req.method == "POST") {
+  //     username = req.body.user;
+  //   }
+  //   if (sessionPool[username] && getSid(res.req.headers.cookie) == sessionPool[username]) {
+  //     // 用户session存在
+  //     next();
+  //   } else {
+  //     res.json({ requestIntercept: '你还没登录哦' });  // 页面拿到这个值在做拦截处理即可
+  //   }
+  // }
 });
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -103,7 +106,7 @@ app.post('/login', function (req, res) {
   pool.getConnection(function (err, connection) {
 
     // 多语句查询示例
-    connection.query("select * from userlist where username = '" + req.body.user + "' and password = '" + req.body.pwd + "' and delMark = '0'; select count(1) from userlist", function (err, rows) {
+    connection.query("select * from userlist where username = '" + req.body.username + "' and password = '" + req.body.password + "' and delMark = '0'; select count(1) from userlist", function (err, rows) {
 
       if (err) {
         throw err;

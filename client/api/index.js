@@ -32,5 +32,13 @@ export default {
     return axios.post(`${baseUrl}/get-data-test`, data, {
       cancelToken: source.token
     });
+  },
+  login(data) {
+    return axios.post(`${baseUrl}/login`, data, {
+      cancelToken: source.token
+    });
+  },
+  getDome () {
+    return axios.post(`${baseUrl}/`);
   }
 };
