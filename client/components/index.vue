@@ -27,7 +27,7 @@
     data() {
       return {
         title: '开始dome演示',
-        activeName: 'animateDome',
+        activeName: 'interfaceDome',
         tabList: [
           {key: 'animateDome', label: '动画演示'},
           {key: 'interfaceDome', label: '接口演示'}

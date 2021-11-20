@@ -30,6 +30,9 @@ module.exports = {
       'config': resolve('config'),
     }
   },
+  externals: {
+    express: 'express',
+  },
   module: {
     rules: [
       {
