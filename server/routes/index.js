@@ -16,12 +16,10 @@ router.get('/hi', function(req,res) {
 })
 
 router.get('/request', function(req,res,next){
-  console.log(req.query, 'query-----');
   res.send(req.query)
 })
 
 router.post('/postrequest', function(req, res, next){
-  console.log(req.body, 'query-----');
   res.send(req.body)
 })
 

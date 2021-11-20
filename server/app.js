@@ -9,7 +9,7 @@ Object.defineProperty(global, 'ctx_path', {
   value: '',
   configurable: true
 });
-// let indexRouter = require('./routes/index');
+
 let usersRouter = require('./routes/users');
 let allRouter =  require('./all-router');
 

@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require('../app');
+var app = require('./app');
 var debug = require('debug')('node-api:server');
 var http = require('http');
 
@@ -14,7 +14,6 @@ var http = require('http');
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
-
 /**
  * Create HTTP server.
  */
@@ -83,6 +82,7 @@ function onError(error) {
 
 function onListening() {
   var addr = server.address();
+  console.log('开启端口号为：', port)
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
