@@ -5,8 +5,9 @@
   "author": "yh_orange@git.com",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.config.js --host 0.0.0.0 app.js",
-    "start": "npm run dev",
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.config.js --host 0.0.0.0",
+    "server": "node server/index.js",
+    "start": "concurrently \"npm run dev\" \"npm run server\"",
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
@@ -22,11 +23,19 @@
     "express-session": "^1.17.1",
     "less-loader": "^4.1.0",
     "md5": "^2.3.0",
+    "node": "^17.1.0",
     "socket.io": "2.3.0",
     "socket.io-client": "^2.3.1",
     "view-design": "^4.6.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "jquery": "^3.6.0",
+    "morgan": "~1.9.1",
+    "mysql": "^2.18.1",
     "ws": "^6.2.1"
   },
   "devDependencies": {
@@ -46,6 +55,7 @@
     "babel-register": "^6.22.0",
     "chalk": "^2.0.1",
     "chromedriver": "^2.27.2",
+    "concurrently": "^6.4.0",
     "copy-webpack-plugin": "^4.0.1",
     "cross-spawn": "^5.0.1",
     "css-loader": "^0.28.0",
@@ -78,6 +88,8 @@
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.6",
     "webpack-merge": "^4.1.0"
   },
   "engines": {
