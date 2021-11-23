@@ -8,7 +8,7 @@ exports.get = function (fileName, key) {
 
   } catch (e) {
 
-    sys.debug('JSON parse fail');
+    console.debug('JSON parse fail');
 
   }//返回需要的配置信息的值
 

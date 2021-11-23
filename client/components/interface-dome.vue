@@ -90,15 +90,15 @@
       },
       getDome () {
         api.getDome().then(res => {
-          this.message = 233333;
+          this.message = res;
         }).catch(error => {
           this.message = error;
         })
       },
       submitForm() {
-        console.log(this.ruleForm, 'type="number"');
         api.login(this.ruleForm).then(res => {
-          this.message = 233333;
+          console.log(res);
+          this.message = res.data.message;
         }).catch(error => {
           this.message = error;
         });

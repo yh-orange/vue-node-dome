@@ -25,11 +25,15 @@ router.get('/request', function(req,res,next){
   res.send(req.query)
 })
 
+router.post('/login', function(req, res, next){
+  res.send(req.body)
+})
 router.post('/postrequest', function(req, res, next){
   res.send(req.body)
 })
 router.post('/get-data-test', function(req, res, next){
-  res.send(req.body)
+  // res.send(req.body)
+  next()
 })
 router.get('/user', function(req, res, next) {
   res.send({

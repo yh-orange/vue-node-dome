@@ -39,6 +39,6 @@ export default {
     });
   },
   getDome () {
-    return axios.post(`${baseUrl}/`);
+    return axios.get(`${baseUrl}/users/get-test`);
   }
 };

@@ -53,9 +53,32 @@ app.all('*', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', hostIp);
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-  // let url = req.url;
-  // if (url == '/login') {
-  next();
+  let url = req.url;
+  console.log('url:', url);
+  if (url === '/login') {
+    console.log(req && req.body, baseModel);
+    // 判断是否已在线
+    // if (!sessionPool[req.body.user]) {
+    //   // 在线
+    //   delete sessionPool[req.body.user];
+    // let addSql = "insert into userlist (username, password, phoneNumber, QQ) values (?, ?, ?, ?)";
+    let addSql = "INSERT INTO userlist SET ?";
+      // let addSqlParams = [req.body.username, req.body.password, req.body.phoneNumber || 0, req.body.QQ || 0];
+      baseModel.insert(addSql, req.body, (data) => {
+        console.log('success', data);
+        res.send({
+          message:data
+        })
+      }, (error) => {
+        console.log('error', error);
+        res.send({
+          message:error
+        })
+      })
+    // }
+  } else {
+    next();
+  }
   // } else {
   //   if (req.method == "GET") {
   //     username = req.query.user;
@@ -86,7 +109,6 @@ app.use(function (req, res, next) {
 });
 // 请求错误
 app.get('/error', function (req, res) {
-
   res.send(fs.readFileSync(path.resolve(__dirname, './www/error.html'), 'utf-8'))
 });
 
@@ -102,7 +124,7 @@ app.use(function (err, req, res, next) {
 });
 // 登录接口
 app.post('/login', function (req, res) {
-
+  console.log(req && req.body);
   // 判断是否已在线
   if (sessionPool[req.body.user]) {
     // 在线
@@ -139,11 +161,11 @@ app.post('/login', function (req, res) {
   let addSql = "insert into userlist (username, password, phoneNumber, QQ)";
   let addSqlParams = [req.body.username, req.body.password, req.body.phoneNumber, req.body.QQ];
   baseModel.insert(addSql, addSqlParams, (data) => {
-    console.log(data);
-  }, (error) => {
-    console.log(error);
-  }
-)
+      console.log(data);
+    }, (error) => {
+      console.log(error);
+    }
+  )
 })
 
 // 退出登录
