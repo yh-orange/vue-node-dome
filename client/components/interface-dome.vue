@@ -25,6 +25,12 @@
         <el-button @click="resetForm('ruleForm')">重置</el-button>
       </el-form-item>
     </el-form>
+    <el-input  v-model="databaseName" placeholder="添加数据库"></el-input><button @click="addDatabase">添加数据库</button>
+    <el-input  v-model="surfaceName" placeholder="添加表"></el-input><button @click="addSurface">添加表</button>
+    <el-input  v-model="addData" placeholder="添加数据"></el-input><button @click="addValue">添加数据</button>
+    <el-input  v-model="removeData" placeholder="删除数据"></el-input><button @click="delValue">删除数据</button>
+    <el-input  v-model="changeData" placeholder="修改数据"></el-input><button @click="changeValue">修改数据</button>
+    <el-input  v-model="viewName" placeholder="查看数据"></el-input><button @click="viewValue">查看数据</button>
   </div>
 </template>
 
@@ -50,6 +56,12 @@
         }
       };
       return {
+        databaseName: '',
+        surfaceName: '',
+        addData: '',
+        removeData: '',
+        changeData: '',
+        viewName: '',
         message: '',
         ruleForm: {
           username: '',
@@ -97,7 +109,6 @@
       },
       submitForm() {
         api.login(this.ruleForm).then(res => {
-          console.log(res);
           this.message = res.data.message;
         }).catch(error => {
           this.message = error;
@@ -105,6 +116,48 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      addDatabase(){
+        api.addDatabase({value:this.databaseName}).then(res => {
+          this.message = res.data.message;
+        }).catch(error => {
+          this.message = error;
+        });
+      },
+      addSurface(){
+        api.addSurface({value:this.surfaceName}).then(res => {
+          this.message = res.data.message;
+        }).catch(error => {
+          this.message = error;
+        });
+      },
+      addValue(){
+        api.addValue({value:this.addData}).then(res => {
+          this.message = res.data.message;
+        }).catch(error => {
+          this.message = error;
+        });
+      },
+      delValue(){
+        api.delValue({value:this.removeData}).then(res => {
+          this.message = res.data.message;
+        }).catch(error => {
+          this.message = error;
+        });
+      },
+      changeValue(){
+        api.changeValue({value:this.changeData}).then(res => {
+          this.message = res.data.message;
+        }).catch(error => {
+          this.message = error;
+        });
+      },
+      viewValue(){
+        api.viewValue({value:this.viewName}).then(res => {
+          this.message = res.data.message;
+        }).catch(error => {
+          this.message = error;
+        });
       }
     }
   }
