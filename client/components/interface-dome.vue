@@ -153,7 +153,7 @@
         });
       },
       viewValue(){
-        api.viewValue({value:this.viewName}).then(res => {
+        api.viewValue({value:this.viewName || 'SELECT * FROM posts'}).then(res => {
           this.message = res.data.message;
         }).catch(error => {
           this.message = error;

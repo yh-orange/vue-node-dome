@@ -40,5 +40,35 @@ export default {
   },
   getDome () {
     return axios.get(`${baseUrl}/users/get-test`);
+  },
+  addDatabase(data) {
+    return axios.post(`${baseUrl}/create-db`, data, {
+      cancelToken: source.token
+    });
+  },
+  addSurface(data) {
+    return axios.post(`${baseUrl}/create-posts-table`, data, {
+      cancelToken: source.token
+    });
+  },
+  addValue(data) {
+    return axios.post(`${baseUrl}/inset-data-table`, data, {
+      cancelToken: source.token
+    });
+  },
+  changeValue(data) {
+    return axios.post(`${baseUrl}/edit-data-table`, data, {
+      cancelToken: source.token
+    });
+  },
+  delValue(data) {
+    return axios.delete(`${baseUrl}/del-data-table`, data, {
+      cancelToken: source.token
+    });
+  },
+  viewValue(data) {
+    return axios.get(`${baseUrl}/get-data-table`, data, {
+      cancelToken: source.token
+    });
   }
 };
