@@ -20,7 +20,6 @@ export default {
       } else {
         // 处理错误
         source.cancel('Operation canceled by the user.');
-        console.log(111111111)
       }
     });
   },

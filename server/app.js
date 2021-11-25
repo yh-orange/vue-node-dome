@@ -7,9 +7,6 @@ const logger = Log({filePath: __filename});
 const hostIp = require('ip').address();
 const bodyParser = require('body-parser');
 const fs = require('fs');
-let BaseModel = require('./base-model');//引入base_model基类
-
-let baseModel = new BaseModel();//实例化baseModel对象
 
 Object.defineProperty(global, 'ctx_path', {
   value: '',
@@ -25,62 +22,54 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extend: true}));
 const sessionPool = {};
 const myLogger = function (req, res, next) {
-  console.log('LOGGED');
   logger.info('请求地址为: %s', req.url.split('?')[0]);
   next();
 };
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
 app.use(myLogger);
 //跨域问题解决方面
 const cors = require('cors');
 app.use(cors({
-  origin: [hostIp, 'http://localhost:8080'],
+  // origin: [hostIp + '8080', hostIp + '3333', 'http://localhost:3333'],
   methods: ['GET', 'POST', 'DELETE'],
+  origin: ['*'],
 }));
 //跨域问题解决方面
 app.all('*', function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', hostIp);
+  // res.header('Access-Control-Allow-Origin', hostIp + '3333');
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-  let url = req.url;
-  if (url === '/login') {
-    console.log(req && req.body, baseModel);
+  next();
+  /**
+   * 判断是否处于登录状态的逻辑处理，
+   * 1如果处于登录状态，就将数据写入头部
+   * 2如果不是登录状态且不是登录的请求接口，就重定向到登录页
+   *  如果是登录的路由， 就不做任何处理
+   * */
+    // if (req.url === '/login') {
+    //   }
     // 判断是否已在线
     // if (!sessionPool[req.body.user]) {
     //   // 在线
-    //   delete sessionPool[req.body.user];
-    // let addSql = "insert into userlist (username, password, phoneNumber, QQ) values (?, ?, ?, ?)";
-    let addSql = "INSERT INTO userlist SET ?";
-    // let addSqlParams = [req.body.username, req.body.password, req.body.phoneNumber || 0, req.body.QQ || 0];
-    baseModel.insert(addSql, req.body, (data) => {
-      console.log('success', data);
-      res.send({
-        message: data
-      })
-    }, (error) => {
-      console.log('error', error);
-      res.send({
-        message: error
-      })
-    })
+    // } else {
+    //   if (req.method == "GET") {
+    //     username = req.query.user;
+    //   } else if (req.method == "POST") {
+    //     username = req.body.user;
+    //   }
+    //   if (sessionPool[username] && getSid(res.req.headers.cookie) == sessionPool[username]) {
+    //     // 用户session存在
+    //     next();
+    //   } else {
+    //     res.json({ requestIntercept: '你还没登录哦' });  // 页面拿到这个值在做拦截处理即可
+    //   }
     // }
-  } else {
-    next();
-  }
-  // } else {
-  //   if (req.method == "GET") {
-  //     username = req.query.user;
-  //   } else if (req.method == "POST") {
-  //     username = req.body.user;
-  //   }
-  //   if (sessionPool[username] && getSid(res.req.headers.cookie) == sessionPool[username]) {
-  //     // 用户session存在
-  //     next();
-  //   } else {
-  //     res.json({ requestIntercept: '你还没登录哦' });  // 页面拿到这个值在做拦截处理即可
-  //   }
-  // }
-});
+  });
 // view engine setup
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
@@ -111,48 +100,11 @@ app.use(function (err, req, res, next) {
 });
 // 登录接口
 app.post('/login', function (req, res) {
-  console.log(req && req.body);
   // 判断是否已在线
   if (sessionPool[req.body.user]) {
     // 在线
     delete sessionPool[req.body.user];
   }
-  // 使用数据库连接池
-  // pool.getConnection(function (err, connection) {
-  //
-  //   // 多语句查询示例
-  //   connection.query("select * from userlist where username = '" + req.body.username + "' and password = '" + req.body.password + "' and delMark = '0'; select count(1) from userlist", function (err, rows) {
-  //
-  //     if (err) {
-  //       throw err;
-  //     } else {
-  //       if (rows[0].length > 0) {
-  //         // 设置cookie
-  //         let cookieSid = req.body.user + Date.parse(new Date());
-  //         res.setHeader("Set-Cookie", ["sid=" + cookieSid + ";path=/;expires=" + new Date("2030")]);
-  //         // 先存储session到sessionPool
-  //         sessionPool[req.body.user] = cookieSid;
-  //         // 返回登录成功的信息
-  //         res.json({ status: 1, dbData: rows[0], session: req.session });
-  //         res.end();
-  //       } else {
-  //         // 用户不存在
-  //         res.json({ status: 0 });
-  //         res.end();
-  //       }
-  //     }
-  //   });
-  //   // 释放本次连接
-  //   connection.release();
-  // });
-  let addSql = "insert into userlist (username, password, phoneNumber, QQ)";
-  let addSqlParams = [req.body.username, req.body.password, req.body.phoneNumber, req.body.QQ];
-  baseModel.insert(addSql, addSqlParams, (data) => {
-      console.log(data);
-    }, (error) => {
-      console.log(error);
-    }
-  )
 })
 
 // 退出登录
@@ -168,7 +120,6 @@ app.post('/logout', function (req, res) {
 
 // 解析cookie中的sid
 function getSid(cookieStr) {
-
   let sid = '', cookieArr = cookieStr.split(';');
   for (let i = 0; i < cookieArr.length; i++) {
     if (cookieArr[i].trim().substring(0, 3) == 'sid') {

@@ -1,10 +1,9 @@
 'use strict';
-const fs = require('fs');
-const path = require('path');
-const dir = path.join(__dirname, './modules/');
-let BaseModel = require('../base-model');//引入base_model基类
 var express = require('express');
 var router = express.Router();
+let axios = require('axios');
+const hostIp = require('ip').address();
+var service = require("./../http/http-server");
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', {title: 'Express'});
@@ -20,7 +19,24 @@ router.get('/hi', function (req, res) {
 })
 
 router.get('/request', function (req, res, next) {
-  res.send(req.query)
+  // axios.get( `http://localhost:3333/${req.url}`).then(data=>{
+  //   res.send(data)
+  // }).catch(error =>{
+  //   res.send(error)
+  // });
+  // return service.get({
+  //   url: req.url.split('?')[0],
+  //   data: req.query,
+  //   method: req.method
+  // });
+  service({
+    url: req.url,
+    method: 'get'
+  }).then(data=>{
+    res.send(data)
+  }).catch(error =>{
+    res.send(error)
+  });
 })
 
 router.post('/login', function (req, res, next) {
@@ -30,8 +46,13 @@ router.post('/postrequest', function (req, res, next) {
   res.send(req.body)
 })
 router.post('/get-data-test', function (req, res, next) {
-  // res.send(req.body)
-  next()
+  console.log({
+    url: req.url,
+    data: req.body,
+    method: req.method
+  });
+  res.send(req.body)
+  // next()
 })
 router.get('/user', function (req, res, next) {
   res.send({
@@ -40,47 +61,22 @@ router.get('/user', function (req, res, next) {
   })
 })
 router.post("/create-db", (req, res) => {
-  console.log(req.body.value);
-  let sql = req.query.value || "CREATE DATABASE nodemysql";
-  BaseModel.createDb(sql, (data) => {
-    res.send(data);
-  })
+  console.log(req.body);
 })
 // 创建表
 router.post("/create-posts-table", (req, res) => {
-  //  创建表 表名为posts id自增 title字符串长度255 body字符串255 主键是ID
-  let sql = req.body.value ||
-    "CREATE TABLE posts(id int AUTO_INCREMENT,title VARCHAR(255),body VARCHAR(255),PRIMARY KEY(ID))";
-  BaseModel.createPostsTable(sql, (data) => {
-    res.send(data);
-  })
+  res.send(req.body)
 })
 router.post("/inset-data-table", (req, res) => {
-  let sql = req.body.sql || "INSERT INTO posts SET ?";
-  let params = req.body.params || {title: "post two", body: "weasth"};
-  BaseModel.insert(sql, params, (data) => {
-    res.send(data);
-  })
+  res.send(req.body)
 })
 router.post("/edit-data-table", (req, res) => {
-  let params = req.body.params || {title: "post two", id: "1"};
-  let sql = req.body.sql || `UPDATE posts SET title = '${params.title}' WHERE id = ${params.id}`;
-  BaseModel.edit(sql, params, (data) => {
-    res.send(data);
-  })
+  res.send(req.body)
 });
 router.delete("/del-data-table", (req, res) => {
-  let params = req.body.params || {id: "1"};
-  let sql = req.body.sql || `DELETE FROM posts WHERE id = ${params.id}`;
-  BaseModel.delete(sql, params, (data) => {
-    res.send(data);
-  })
+  res.send(req.body)
 });
 router.get("/get-data-table", (req, res) => {
-  let params = req.query.params || {id: "1"};
-  let sql = req.query.sql || `SELECT * FROM posts WHERE id = ${req.query.id}`;
-  BaseModel.find(sql, params, (data) => {
-    res.send(data);
-  })
+  res.send(req.query)
 });
 module.exports = router;
