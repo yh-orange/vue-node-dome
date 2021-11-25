@@ -2,11 +2,11 @@ let createError = require('http-errors');
 let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
-let logger = require('morgan');
+let Log = require('yh_node_logger');
+const logger = Log({filePath: __filename});
 const hostIp = require('ip').address();
 const bodyParser = require('body-parser');
 const fs = require('fs');
-const mysql = require('mysql');
 let BaseModel = require('./base-model');//引入base_model基类
 
 let baseModel = new BaseModel();//实例化baseModel对象
@@ -17,7 +17,7 @@ Object.defineProperty(global, 'ctx_path', {
 });
 
 let usersRouter = require('./routes/users');
-let allRouter = require('./all-router');
+let indexRouter = require('./routes');
 
 let app = express();
 app.use(express.static(path.resolve(__dirname, './www')));  // 默认首页为www下的index.html
@@ -26,27 +26,16 @@ app.use(bodyParser.urlencoded({extend: true}));
 const sessionPool = {};
 const myLogger = function (req, res, next) {
   console.log('LOGGED');
+  logger.info('请求地址为: %s', req.url.split('?')[0]);
   next();
 };
 
 app.use(myLogger);
-
-// const pool = mysql.createConnection({
-//   host: '120.77.15.134',
-//   user: 'yh',
-//   password: 'KBc7mSdYe6r7HxFN',
-//   port: '3306',
-//   database: 'yh',
-//   multipleStatements: true
-// });
-// pool.connect(function(err){
-//   console.log('connection success');
-// });
 //跨域问题解决方面
 const cors = require('cors');
 app.use(cors({
   origin: [hostIp, 'http://localhost:8080'],
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'DELETE'],
 }));
 //跨域问题解决方面
 app.all('*', function (req, res, next) {
@@ -54,7 +43,6 @@ app.all('*', function (req, res, next) {
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
   let url = req.url;
-  console.log('url:', url);
   if (url === '/login') {
     console.log(req && req.body, baseModel);
     // 判断是否已在线
@@ -63,18 +51,18 @@ app.all('*', function (req, res, next) {
     //   delete sessionPool[req.body.user];
     // let addSql = "insert into userlist (username, password, phoneNumber, QQ) values (?, ?, ?, ?)";
     let addSql = "INSERT INTO userlist SET ?";
-      // let addSqlParams = [req.body.username, req.body.password, req.body.phoneNumber || 0, req.body.QQ || 0];
-      baseModel.insert(addSql, req.body, (data) => {
-        console.log('success', data);
-        res.send({
-          message:data
-        })
-      }, (error) => {
-        console.log('error', error);
-        res.send({
-          message:error
-        })
+    // let addSqlParams = [req.body.username, req.body.password, req.body.phoneNumber || 0, req.body.QQ || 0];
+    baseModel.insert(addSql, req.body, (data) => {
+      console.log('success', data);
+      res.send({
+        message: data
       })
+    }, (error) => {
+      console.log('error', error);
+      res.send({
+        message: error
+      })
+    })
     // }
   } else {
     next();
@@ -94,13 +82,12 @@ app.all('*', function (req, res, next) {
   // }
 });
 // view engine setup
-app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', allRouter);
+app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
