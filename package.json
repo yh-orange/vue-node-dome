@@ -38,7 +38,7 @@
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "ws": "^6.2.1",
-    "yh_node_logger": "^1.0.1"
+    "yh_node_logger": "^1.0.3"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
