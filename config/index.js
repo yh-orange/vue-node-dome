@@ -4,7 +4,7 @@
 
 const path = require('path')
 const hostIp = require('ip').address();
-
+console.log('----------------------------hostIp:', hostIp);
 module.exports = {
   dev: {
 
@@ -13,7 +13,9 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://localhost:3000/',
+        // target: 'http://localhost:3000/',
+        target: `http://${hostIp}:3000/`,
+        // target: 'http://' + hostIp + '/3000/',
         ChangeOrigin: true,
         pathRewrite: {
           '^/api': ''
@@ -32,7 +34,7 @@ module.exports = {
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
-    poll: true, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
+    poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
 
     /**

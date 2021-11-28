@@ -1,9 +1,10 @@
 // http_server.js
 var axios = require("axios")
 const hostIp = require('ip').address();
+console.log(process);
 // 创建axios实例s
 const service = axios.create({
-  baseURL: `192.168.15.16:3333`, // api的base_url  process.env.BASE_API,,注意局域网访问时，不能使用localhost
+  baseURL:`http://${hostIp}:3333/`, // api的base_url  process.env.BASE_API,,注意局域网访问时，不能使用localhost
   timeout: 20 * 1000, // 请求超时时间
 });
 // request拦截器,拦截每一个请求加上请求头
@@ -14,7 +15,7 @@ service.interceptors.request.use(config => {
   //     // console.log('token存在') // 如果token存在那么每个请求头里面全部加上token
   //     config.headers['Authorization'] = 'bearer ' + store.state.token
   // }
-  console.log(config, config.url, 'node axios 拦截----------------------');
+  console.log(config.url, 'node axios 拦截----------------------');
   return config
 }, error => {
   console.log(error) // for debug

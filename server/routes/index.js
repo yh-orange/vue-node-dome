@@ -19,24 +19,14 @@ router.get('/hi', function (req, res) {
 })
 
 router.get('/request', function (req, res, next) {
-  // axios.get( `http://localhost:3333/${req.url}`).then(data=>{
-  //   res.send(data)
+  // service({
+  //   url: req.url,
+  //   method: 'get'
+  // }).then(data=>{
+  //   res.send({message: data})
   // }).catch(error =>{
   //   res.send(error)
   // });
-  // return service.get({
-  //   url: req.url.split('?')[0],
-  //   data: req.query,
-  //   method: req.method
-  // });
-  service({
-    url: req.url,
-    method: 'get'
-  }).then(data=>{
-    res.send(data)
-  }).catch(error =>{
-    res.send(error)
-  });
 })
 
 router.post('/login', function (req, res, next) {

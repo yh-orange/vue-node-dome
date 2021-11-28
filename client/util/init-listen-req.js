@@ -27,14 +27,37 @@ export default {
               }
             }
             return config;
+          }, (err) => {
+            return Promise.reject(err);
           });
 
           // http响应拦截
           axios.interceptors.response.use(response => {
-            if (response.data.requestIntercept === 1) {
-              console.log('登录信息已失效，请重新登录！');
-            }
             return response;
+          }, (err) =>{
+            let config = err.config;
+            // If config does not exist or the retry option is not set, reject
+            if(!config || !config.retry) return Promise.reject(err);
+            // Set the variable for keeping track of the retry count
+            config.__retryCount = config.__retryCount || 0;
+            // Check if we've maxed out the total number of retries
+            if(config.__retryCount >= config.retry) {
+              this.$message.error('请求超时')
+              // Reject with the error
+              return Promise.reject(err);
+            }
+            // Increase the retry count
+            config.__retryCount += 1;
+            // Create new promise to handle exponential backoff
+            let backoff = new Promise(function(resolve) {
+              setTimeout(function() {
+                resolve();
+              }, config.retryDelay || 1);
+            });
+            // Return the promise in which recalls axios to retry the request
+            return backoff.then(function() {
+              return axios(config);
+            });
           });
         }
     }

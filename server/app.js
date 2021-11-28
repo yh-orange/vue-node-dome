@@ -34,14 +34,15 @@ app.use(myLogger);
 //跨域问题解决方面
 const cors = require('cors');
 app.use(cors({
-  // origin: [hostIp + '8080', hostIp + '3333', 'http://localhost:3333'],
+  // origin: [hostIp + '8080', hostIp + '3333', 'http://localhost:8080'],
+  // origin: [hostIp + '8080'],
   methods: ['GET', 'POST', 'DELETE'],
-  origin: ['*'],
+  // origin: ['*'],
 }));
 //跨域问题解决方面
 app.all('*', function (req, res, next) {
   // res.header('Access-Control-Allow-Origin', hostIp + '3333');
-  res.header('Access-Control-Allow-Origin', '*');
+  // res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
   next();

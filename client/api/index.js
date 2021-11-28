@@ -5,6 +5,12 @@ const baseUrl = process.env.NODE_ENV === 'development' ? config.dev.baseUrl.dev 
 const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
 
+// axios 超时拦截配置 超时时间 重新请求次数 以及重新请求的时间
+axios.defaults.timeout = 5 * 1000;
+axios.defaults.retry = 4;
+axios.defaults.retryDelay = 1000;
+
+axios.maxRedirects = 5;
 export default {
   /***
    * request
