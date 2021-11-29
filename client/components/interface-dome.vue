@@ -88,6 +88,7 @@
     methods: {
       getmsg() {
         api.request({dong: '123'}).then(res => {
+          console.log(res);
           this.message = res && res.data;
         }).catch(error => {
           this.message = error;

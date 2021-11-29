@@ -1,9 +1,7 @@
 'use strict';
-var express = require('express');
-var router = express.Router();
-let axios = require('axios');
-const hostIp = require('ip').address();
-var service = require("./../http/http-server");
+let express = require('express');
+let router = express.Router();
+let service = require("./../http/http-server");
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', {title: 'Express'});
@@ -19,14 +17,15 @@ router.get('/hi', function (req, res) {
 })
 
 router.get('/request', function (req, res, next) {
-  // service({
-  //   url: req.url,
-  //   method: 'get'
-  // }).then(data=>{
-  //   res.send({message: data})
-  // }).catch(error =>{
-  //   res.send(error)
-  // });
+  service({
+    url: req.url,
+    method: 'get'
+  }).then(data=>{
+    console.log(data);
+    res.send(data)
+  }).catch(error =>{
+    res.send(error)
+  });
 })
 
 router.post('/login', function (req, res, next) {
