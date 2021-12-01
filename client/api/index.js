@@ -11,6 +11,7 @@ axios.defaults.retry = 4;
 axios.defaults.retryDelay = 1000;
 
 axios.maxRedirects = 5;
+console.log(baseUrl);
 export default {
   /***
    * request

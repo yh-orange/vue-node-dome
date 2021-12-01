@@ -83,7 +83,7 @@ function onError(error) {
 
 function onListening() {
     let addr = server.address();
-    console.log('开启端口号为：', port)
+  console.log('服务地址为：', require('ip').address() + ':' + port)
     let bind = typeof addr === 'string'
         ? 'pipe ' + addr
         : 'port ' + addr.port;

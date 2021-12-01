@@ -3,69 +3,126 @@ let express = require('express');
 let router = express.Router();
 let service = require("./../http/http-server");
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('index', {title: 'Express'});
-});
-
-router.get('/hi', function (req, res, next) {
-  req.name = 'kim';
-  next();
-})
-
-router.get('/hi', function (req, res) {
-  res.send(`hello ${req.name}`)
-})
 
 router.get('/request', function (req, res, next) {
   service({
     url: req.url,
     method: 'get'
   }).then(data=>{
-    console.log(data);
     res.send(data)
   }).catch(error =>{
-    res.send(error)
+    res.send({cold: error.cold, message: error.message})
   });
 })
 
 router.post('/login', function (req, res, next) {
-  res.send(req.body)
+  service({
+    url: req.url,
+    method: 'post',
+    data: req.body
+  }).then(data=>{
+    res.send(data)
+  }).catch(error =>{
+    res.send({cold: error.cold, message: error.message})
+  });
 })
 router.post('/postrequest', function (req, res, next) {
-  res.send(req.body)
+  service({
+    url: req.url,
+    method: 'post',
+    data: req.body
+  }).then(data=>{
+    res.send(data)
+  }).catch(error =>{
+    res.send({cold: error.cold, message: error.message})
+  });
 })
 router.post('/get-data-test', function (req, res, next) {
-  console.log({
+  service({
     url: req.url,
-    data: req.body,
-    method: req.method
+    method: 'post',
+    data: req.body
+  }).then(data=>{
+    res.send(data)
+  }).catch(error =>{
+    res.send({cold: error.cold, message: error.message})
   });
-  res.send(req.body)
   // next()
 })
 router.get('/user', function (req, res, next) {
-  res.send({
-    name: 'kim',
-    address: '广州海珠区',
-  })
+  service({
+    url: req.url,
+    method: 'get'
+  }).then(data=>{
+    res.send(data)
+  }).catch(error =>{
+    res.send({cold: error.cold, message: error.message})
+  });
 })
 router.post("/create-db", (req, res) => {
-  console.log(req.body);
+  service({
+    url: req.url,
+    method: 'post',
+    data: req.body
+  }).then(data=>{
+    res.send(data)
+  }).catch(error =>{
+    res.send({cold: error.cold, message: error.message})
+  });
 })
 // 创建表
 router.post("/create-posts-table", (req, res) => {
-  res.send(req.body)
+  service({
+    url: req.url,
+    method: 'post',
+    data: req.body
+  }).then(data=>{
+    res.send(data)
+  }).catch(error =>{
+    res.send({cold: error.cold, message: error.message})
+  });
 })
 router.post("/inset-data-table", (req, res) => {
-  res.send(req.body)
+  service({
+    url: req.url,
+    method: 'post',
+    data: req.body
+  }).then(data=>{
+    res.send(data)
+  }).catch(error =>{
+    res.send({cold: error.cold, message: error.message})
+  });
 })
 router.post("/edit-data-table", (req, res) => {
-  res.send(req.body)
+  service({
+    url: req.url,
+    method: 'post',
+    data: req.body
+  }).then(data=>{
+    res.send(data)
+  }).catch(error =>{
+    res.send({cold: error.cold, message: error.message})
+  });
 });
 router.delete("/del-data-table", (req, res) => {
-  res.send(req.body)
+  service({
+    url: req.url,
+    method: 'delete',
+    data: req.body
+  }).then(data=>{
+    res.send(data)
+  }).catch(error =>{
+    res.send({cold: error.cold, message: error.message})
+  });
 });
 router.get("/get-data-table", (req, res) => {
-  res.send(req.query)
+  service({
+    url: req.url,
+    method: 'get'
+  }).then(data=>{
+    res.send(data)
+  }).catch(error =>{
+    res.send({cold: error.cold, message: error.message})
+  });
 });
 module.exports = router;

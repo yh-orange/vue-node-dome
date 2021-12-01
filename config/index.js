@@ -24,13 +24,13 @@ module.exports = {
     },
     baseUrl: {
       dev: '/api',
-      pro: 'http://www.gaoniao.com/3000/'
+      pro: '/api'
     },
 
     // Various Dev Server settings
     // host: '127.0.0.1', // can be overwritten by process.env.HOST
     host: hostIp, // 设置本机ip访问
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 80, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
