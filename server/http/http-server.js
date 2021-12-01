@@ -4,7 +4,7 @@ const hostIp = require('ip').address();
 
 // 创建axios实例s
 const service = axios.create({
-  baseURL:`http://${hostIp}:3333/`, // api的base_url  process.env.BASE_API,,注意局域网访问时，不能使用localhost
+  baseURL:`http://120.77.15.133:3333/`, // api的base_url  process.env.BASE_API,,注意局域网访问时，不能使用localhost
   timeout: 20 * 1000, // 请求超时时间
 });
 // request拦截器,拦截每一个请求加上请求头

@@ -77,7 +77,16 @@ module.exports = {
           loader: "css-loader" // translates CSS into CommonJS
         }, {
           loader: "less-loader" // compiles Less to CSS
-        }]
+        }, {
+            loader: require.resolve('postcss-loader'),
+            options: {
+              plugins: [
+                require('autoprefixer')({
+                  overrideBrowserslist: ['last 4 versions', 'ie 9', 'android 4.4.4', 'ios 8'],
+                }),
+              ],
+            },
+          }]
       }
 
     ]

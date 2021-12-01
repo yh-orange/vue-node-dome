@@ -4,7 +4,7 @@
 
 const path = require('path')
 const hostIp = require('ip').address();
-console.log('----------------------------hostIp:', hostIp);
+
 module.exports = {
   dev: {
 
@@ -14,7 +14,7 @@ module.exports = {
     proxyTable: {
       '/api': {
         // target: 'http://localhost:3000/',
-        target: `http://${hostIp}:3000/`,
+        target: `http://localhost:3000/`,
         // target: 'http://' + hostIp + '/3000/',
         ChangeOrigin: true,
         pathRewrite: {
